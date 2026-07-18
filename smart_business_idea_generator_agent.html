@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Business Idea Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background:
+        radial-gradient(circle at top left, #1e3a8a 0%, transparent 40%),
+        radial-gradient(circle at bottom right, #2563eb 0%, transparent 35%),
+        linear-gradient(135deg, #020617, #07152e, #0b1120);
+      color: white;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      background: #2563eb55;
+      filter: blur(170px);
+      top: -180px;
+      left: -150px;
+      animation: float1 12s infinite alternate;
+      z-index: -1;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      width: 450px;
+      height: 450px;
+      background: #7c3aed44;
+      filter: blur(160px);
+      bottom: -150px;
+      right: -120px;
+      animation: float2 10s infinite alternate;
+      z-index: -1;
+    }
+
+    @keyframes float1 {
+      from { transform: translateY(0); }
+      to   { transform: translateY(60px); }
+    }
+
+    @keyframes float2 {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-60px); }
+    }
+
+    /* ── Header ── */
+    header {
+      height: 70px;
+      padding: 0 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(18px);
+      background: rgba(255, 255, 255, .06);
+      border-bottom: 1px solid rgba(255, 255, 255, .1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      box-shadow: 0 0 22px #2563eb66;
+    }
+
+    .logo h2 { font-size: 21px; font-weight: 700; }
+    .logo p  { font-size: 12px; color: #b9c7ff; }
+
+    .badge {
+      padding: 8px 18px;
+      border-radius: 50px;
+      background: #2563eb;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* ── Layout ── */
+    .container {
+      display: flex;
+      height: calc(100vh - 70px);
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 370px;
+      padding: 20px 18px;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, .04);
+      border-right: 1px solid rgba(255, 255, 255, .08);
+      flex-shrink: 0;
+    }
+
+    .sidebar::-webkit-scrollbar       { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, .15); border-radius: 4px; }
+
+    .sidebar-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #93c5fd;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      padding-left: 2px;
+    }
+
+    /* ── 9 Business Idea Cards ── */
+    .idea-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .idea-card {
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .09);
+      border-radius: 18px;
+      padding: 16px 14px 14px;
+      cursor: pointer;
+      transition: transform .3s, border-color .3s, background .3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .idea-card:hover {
+      transform: translateY(-5px);
+      border-color: #3b82f6;
+      background: rgba(59, 130, 246, .12);
+    }
+
+    /* Card 9 spans full width as a horizontal row */
+    .idea-card:nth-child(9) {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      text-align: left;
+      gap: 16px;
+      padding: 16px 20px;
+    }
+
+    .idea-card:nth-child(9) .card-img  { flex-shrink: 0; }
+    .idea-card:nth-child(9) .card-body { text-align: left; }
+
+    .card-img {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-name {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.35;
+      color: #e0eaff;
+    }
+
+    .card-desc {
+      font-size: 11px;
+      color: #8ba3c7;
+      margin-top: 3px;
+      line-height: 1.45;
+    }
+
+    /* ── Main chat area ── */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .chat-header {
+      height: 80px;
+      padding: 0 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, .05);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .agent {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .agent-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .12);
+      border: 2px solid rgba(255, 255, 255, .28);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 26px;
+      box-shadow: 0 0 18px rgba(255, 255, 255, .2), 0 0 36px rgba(37, 99, 235, .3);
+    }
+
+    .agent h2   { font-size: 18px; }
+    .agent span { font-size: 12px; color: #a7f3d0; }
+
+    .ibm { font-size: 12px; color: #c7d2fe; }
+
+    /* ── Agent mount — white so IBM widget is fully visible ── */
+    #root {
+      flex: 1;
+      position: relative;
+      background: #ffffff;
+      min-height: 0;
+    }
+
+    /* ── 4 big cards below the footer text, 1 per row ── */
+    .bottom-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 18px 28px 20px;
+      background: rgba(255, 255, 255, .02);
+      border-top: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .bottom-card {
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 20px;
+      padding: 20px 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      transition: transform .3s, border-color .3s, background .3s;
+    }
+
+    .bottom-card:hover {
+      transform: translateY(-4px);
+      border-color: #3b82f6;
+      background: rgba(59, 130, 246, .1);
+    }
+
+    .bottom-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .bottom-card-body h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #e0eaff;
+      margin-bottom: 5px;
+      line-height: 1.3;
+    }
+
+    .bottom-card-body p {
+      font-size: 12px;
+      color: #8ba3c7;
+      line-height: 1.55;
+    }
+
+    /*
+      Force the IBM watsonx Orchestrate launcher/chat button to white.
+      The loader injects elements directly into #root; these rules target
+      both light-DOM children and any ::part() surfaces the widget exposes.
+    */
+    #root button,
+    #root [role="button"],
+    #root .wxo-launcher,
+    #root .wxo-launcher-button,
+    #root [class*="launcher"],
+    #root [class*="chat-button"],
+    #root [class*="toggle-button"],
+    #root [class*="open-button"] {
+      background-color: #ffffff !important;
+      color: #1d4ed8 !important;
+      border-color: #1d4ed8 !important;
+      box-shadow: 0 4px 18px rgba(37, 99, 235, .35) !important;
+    }
+
+    #root button svg path,
+    #root button svg circle,
+    #root button svg rect,
+    #root [role="button"] svg path,
+    #root [class*="launcher"] svg path {
+      stroke: #1d4ed8 !important;
+      fill: #1d4ed8 !important;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      background: rgba(255, 255, 255, .05);
+      border-top: 1px solid rgba(255, 255, 255, .08);
+      font-size: 12px;
+      color: #dbeafe;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .logo h2 { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <div class="logo-circle">🚀</div>
+      <div>
+        <h2>Smart Business Idea Generator</h2>
+        <p>Powered by IBM watsonx Orchestrate</p>
+      </div>
+    </div>
+    <div class="badge">AI Innovation</div>
+  </header>
+
+  <div class="container">
+
+    <!-- Sidebar: 9 Business Idea Cards -->
+    <aside class="sidebar">
+      <div class="sidebar-title">💼 Explore Business Ideas</div>
+      <div class="idea-grid">
+
+        <!-- 1. AI SaaS -->
+        <div class="idea-card">
+          <div class="card-img" style="background: linear-gradient(135deg, #1d4ed8, #7c3aed)">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <rect x="6" y="10" width="20" height="14" rx="3" stroke="white" stroke-width="1.8"/>
+              <path d="M11 17h10M11 21h6" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <circle cx="22" cy="10" r="4" fill="#7c3aed" stroke="white" stroke-width="1.5"/>
+              <path d="M20.5 10l1 1 2-2" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-name">AI SaaS Platform</div>
+            <div class="card-desc">Build AI tools for B2B clients</div>
+          </div>
+        </div>
+
+        <!-- 2. EdTech -->
+        <div class="idea-card">
+          <div class="card-img" style="background: linear-gradient(135deg, #0891b2, #0ea5e9)">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M16 8L4 14l12 6 12-6-12-6z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M8 17v6c0 2 3.6 4 8 4s8-2 8-4v-6" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M28 14v6" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-name">EdTech Startup</div>
+            <div class="card-desc">Online courses & skill platform</div>
+          </div>
+        </div>
+
+        <!-- 3. HealthTech -->
+        <div class="idea-card">
+          <div class="card-img" style="background: linear-gradient(135deg, #059669, #34d399)">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <rect x="5" y="5" width="22" height="22" rx="4" stroke="white" stroke-width="1.8"/>
+              <path d="M16 10v12M10 16h12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-name">HealthTech App</div>
+            <div class="card-desc">Digital health & wellness tools</div>
+          </div>
+        </div>
+
+        <!-- 4. Green Tech -->
+        <div class="idea-card">
+          <div class="card-img" style="background: linear-gradient(135deg, #15803d, #4ade80)">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M16 27V16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M16 16C16 16 8 14 7 7c5 0 9 4 9 9z" fill="rgba(255,255,255,.3)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M16 16C16 16 22 11 25 6c-4 1-9 5-9 10z" fill="rgba(255,255,255,.3)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Green Tech</div>
+            <div class="card-desc">Sustainable & eco solutions</div>
+          </div>
+        </div>
+
+        <!-- 5. FinTech -->
+        <div class="idea-card">
+          <div class="card-img" style="background: linear-gradient(135deg, #b45309, #f59e0b)">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <rect x="4" y="9" width="24" height="16" rx="3" stroke="white" stroke-width="1.8"/>
+              <path d="M4 14h24" stroke="white" stroke-width="1.8"/>
+              <circle cx="10" cy="20" r="2" fill="white"/>
+              <rect x="15" y="18.5" width="9" height="3" rx="1.5" fill="white"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-name">FinTech App</div>
+            <div class="card-desc">Payments, savings & finance</div>
+          </div>
+        </div>
+
+        <!-- 6. E-Commerce -->
+        <div class="idea-card">
+          <div class="card-img" style="background: linear-gradient(135deg, #be185d, #f472b6)">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M5 7h3l3 12h13l2-8H10" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="14" cy="23" r="2" fill="white"/>
+              <circle cx="22" cy="23" r="2" fill="white"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-name">E-Commerce</div>
+            <div class="card-desc">Online store & marketplace</div>
+          </div>
+        </div>
+
+        <!-- 7. AgriTech -->
+        <div class="idea-card">
+          <div class="card-img" style="background: linear-gradient(135deg, #854d0e, #facc15)">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M16 26V14" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M8 22c0-5 3-9 8-9 5 0 8 4 8 9" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M5 26h22" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <circle cx="16" cy="10" r="3" stroke="white" stroke-width="1.6"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-name">AgriTech</div>
+            <div class="card-desc">Smart farming & crop tech</div>
+          </div>
+        </div>
+
+        <!-- 8. Creator Economy -->
+        <div class="idea-card">
+          <div class="card-img" style="background: linear-gradient(135deg, #6d28d9, #a78bfa)">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="13" r="5" stroke="white" stroke-width="1.8"/>
+              <path d="M8 27c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M21 9l2-2m2-2l-2 2M23 13h2m2 0h-2M21 17l2 2" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Creator Economy</div>
+            <div class="card-desc">Content, courses & community</div>
+          </div>
+        </div>
+
+        <!-- 9. Smart Logistics — spans full width -->
+        <div class="idea-card">
+          <div class="card-img" style="background: linear-gradient(135deg, #0369a1, #38bdf8)">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <rect x="5" y="14" width="22" height="16" rx="3" stroke="white" stroke-width="1.8"/>
+              <path d="M27 20h5l3 6v4h-8V20z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
+              <circle cx="11" cy="32" r="3" fill="white"/>
+              <circle cx="29" cy="32" r="3" fill="white"/>
+              <path d="M8 22h16M8 26h10" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Smart Logistics</div>
+            <div class="card-desc">AI-powered delivery, fleet management & last-mile tracking for modern supply chains</div>
+          </div>
+        </div>
+
+      </div><!-- /idea-grid -->
+    </aside>
+
+    <!-- Main Chat Section -->
+    <section class="main">
+      <div class="chat-header">
+        <div class="agent">
+          <div class="agent-avatar">🤖</div>
+          <div>
+            <h2>Business Innovation Agent</h2>
+            <span>🟢 Online • Ready to Generate Ideas</span>
+          </div>
+        </div>
+        <div class="ibm">IBM watsonx Orchestrate</div>
+      </div>
+
+      <!-- IBM watsonx agent mounts here -->
+      <div id="root"></div>
+
+      <div class="footer">
+        <div>💡 Turn your ideas into innovative businesses with AI.</div>
+        <div>Powered by <strong>IBM watsonx Orchestrate</strong></div>
+      </div>
+
+      <!-- 4 big cards — 2 per row -->
+      <div class="bottom-cards">
+
+        <!-- Card 1: Idea Validation -->
+        <div class="bottom-card">
+          <div class="bottom-card-icon" style="background: linear-gradient(135deg, #1d4ed8, #3b82f6)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+              <circle cx="13" cy="13" r="9" stroke="white" stroke-width="1.7"/>
+              <path d="M9 13l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="bottom-card-body">
+            <h4>Idea Validation</h4>
+            <p>Test your concept against real market data and get a feasibility score instantly.</p>
+          </div>
+        </div>
+
+        <!-- Card 2: Revenue Modelling -->
+        <div class="bottom-card">
+          <div class="bottom-card-icon" style="background: linear-gradient(135deg, #065f46, #10b981)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+              <rect x="3" y="15" width="4" height="8" rx="1" fill="white"/>
+              <rect x="11" y="10" width="4" height="13" rx="1" fill="white"/>
+              <rect x="19" y="5" width="4" height="18" rx="1" fill="white"/>
+              <path d="M5 12l6-5 4 3 6-7" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="bottom-card-body">
+            <h4>Revenue Modelling</h4>
+            <p>AI builds a 12-month revenue projection across multiple business models.</p>
+          </div>
+        </div>
+
+        <!-- Card 3: Competitor Radar -->
+        <div class="bottom-card">
+          <div class="bottom-card-icon" style="background: linear-gradient(135deg, #7c2d12, #f97316)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+              <circle cx="13" cy="13" r="9" stroke="white" stroke-width="1.6"/>
+              <circle cx="13" cy="13" r="5" stroke="white" stroke-width="1.4"/>
+              <circle cx="13" cy="13" r="2" fill="white"/>
+              <path d="M13 4v2M13 20v2M4 13h2M20 13h2" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="bottom-card-body">
+            <h4>Competitor Radar</h4>
+            <p>Map key players, discover market gaps and sharpen your unique angle to win.</p>
+          </div>
+        </div>
+
+        <!-- Card 4: Launch Roadmap -->
+        <div class="bottom-card">
+          <div class="bottom-card-icon" style="background: linear-gradient(135deg, #4c1d95, #8b5cf6)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+              <path d="M13 3c-1 4-4 6-7 7 3 1 6 3 7 7 1-4 4-6 7-7-3-1-6-3-7-7z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M5 18c-.5 1.5-1.5 2-3 2.5 1.5.5 2.5 1 3 2.5.5-1.5 1.5-2 3-2.5-1.5-.5-2.5-1-3-2.5z" stroke="white" stroke-width="1.3" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="bottom-card-body">
+            <h4>Launch Roadmap</h4>
+            <p>Week-by-week action plan from first idea to acquiring your first customer.</p>
+          </div>
+        </div>
+
+      </div><!-- /bottom-cards -->
+    </section>
+
+  </div><!-- /container -->
+
+  <!-- Idea card click feedback -->
+  <script>
+    document.querySelectorAll('.idea-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        card.style.background = 'rgba(59, 130, 246, .25)';
+        card.style.borderColor = '#60a5fa';
+        setTimeout(function () {
+          card.style.background = '';
+          card.style.borderColor = '';
+        }, 600);
+      });
+    });
+  </script>
+
+  <!-- IBM watsonx Orchestrate embedded agent -->
+  <script>
+    window.wxOConfiguration = {
+      orchestrationID: "c6008578ce5741c6b77eccbc70cb393d_c1a15e1a-bf43-4d83-82b7-966d5d27f854",
+      hostURL: "https://au-syd.watson-orchestrate.cloud.ibm.com",
+      rootElementID: "root",
+      deploymentPlatform: "ibmcloud",
+      crn: "crn:v1:bluemix:public:watsonx-orchestrate:au-syd:a/c6008578ce5741c6b77eccbc70cb393d:c1a15e1a-bf43-4d83-82b7-966d5d27f854::",
+      chatOptions: {
+        agentId: "9c718f5a-65d3-4b32-b99a-7c17117c3dcc"
+      }
+    };
+    setTimeout(function () {
+      var script = document.createElement('script');
+      script.src = window.wxOConfiguration.hostURL + '/wxochat/wxoLoader.js?embed=true';
+      script.addEventListener('load', function () {
+        wxoLoader.init();
+      });
+      document.head.appendChild(script);
+    }, 0);
+  </script>
+
+</body>
+</html>

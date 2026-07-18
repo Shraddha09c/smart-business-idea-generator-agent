@@ -1,0 +1,22 @@
+<script>
+  window.wxOConfiguration = {
+    orchestrationID: "c6008578ce5741c6b77eccbc70cb393d_c1a15e1a-bf43-4d83-82b7-966d5d27f854",
+    hostURL: "https://au-syd.watson-orchestrate.cloud.ibm.com",
+    rootElementID: "root",
+    deploymentPlatform: "ibmcloud",
+    crn: "crn:v1:bluemix:public:watsonx-orchestrate:au-syd:a/c6008578ce5741c6b77eccbc70cb393d:c1a15e1a-bf43-4d83-82b7-966d5d27f854::",
+    chatOptions: {
+        agentId: "9c718f5a-65d3-4b32-b99a-7c17117c3dcc", 
+    }
+  };
+  setTimeout(function () {
+    const script = document.createElement('script');
+    script.src = `${window.wxOConfiguration.hostURL}/wxochat/wxoLoader.js?embed=true`;
+    script.addEventListener('load', function () {
+        wxoLoader.init();
+    });
+    document.head.appendChild(script);
+  }, 0);                     
+</script>
+
+for smart business idea
